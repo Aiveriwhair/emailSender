@@ -16,6 +16,13 @@ class mailSender:
         self.password = "gmail_sender_password"
         self.receiver = "receiver@gmail.com"
 
+    def __init__(self, subject, body, senderMail, senderPassw, receiverMail) -> None:
+        self.mail = mail(subject=subject, body=body)
+        self.sender = senderMail
+        self.password = senderPassw
+        self.receiver = receiverMail
+
+
     def __init__(self, subject, body) -> None:
         self.mail = mail(subject=subject, body=body)
         self.sender = "sender@gmail.com"
