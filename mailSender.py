@@ -6,42 +6,31 @@ class mail:
     def __init__(self, subject, body) -> None:
         self.subject = subject
         self.body = body
+        self.message = EmailMessage()
 
 
 
 class mailSender:
-    def __init__(self, mail) -> None:
-        self.mail = mail
-        self.sender = "sender@gmail.com"
-        self.password = "gmail_sender_password"
-        self.receiver = "receiver@gmail.com"
-
-    def __init__(self, subject, body, senderMail, senderPassw, receiverMail) -> None:
+    def __init__(self, subject, body, senderMail, senderPassw) -> None:
         self.mail = mail(subject=subject, body=body)
         self.sender = senderMail
         self.password = senderPassw
-        self.receiver = receiverMail
-
-
-    def __init__(self, subject, body) -> None:
-        self.mail = mail(subject=subject, body=body)
-        self.sender = "sender@gmail.com"
-        self.password = "gmail_sender_password"
-        self.receiver = "receiver@gmail.com"
-
-    def setMessage(self):
-        message = EmailMessage()
-        message["From"] = self.sender
-        message["To"] = self.receiver
-        message["Subject"] = self.mail.subject
-        message.set_content(self.mail.body)
-        return message
-
-    def SendEmail(self):
+        self.message = EmailMessage()
+####
+    def setMessage(self, receiver):
+        self.message["From"] = self.sender
+        self.message["To"] = receiver
+        self.message["Subject"] = self.mail.subject
+        self.message.set_content(self.mail.body)
+#####
+    def sendEmailTo(self, receiverMail):
+        self.setMessage(receiverMail)
         context = ssl.create_default_context()
-        print("Sending email to", self.receiver)
+        print("Sending email to", receiverMail)
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             server.login(self.sender, self.password)
-            server.sendmail(self.sender, self.receiver, self.setMessage().as_string())
+            server.sendmail(self.sender, receiverMail, self.message.as_string())
         print("Email sent ... ")
+        
+
             
