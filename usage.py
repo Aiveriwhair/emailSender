@@ -1,7 +1,7 @@
 from mailSender import mailSender
 
-sender = mailSender("Mail sent with python", 
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor luctus quam.",
-                    "sender@gmail.com",
-                    "gmailSenderPassword")
+sender = mailSender(subject="Mail sent with python", 
+                    body="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor luctus quam.",
+                    senderMail="sender@gmail.com",
+                    senderPassw="gmailSenderPassword")
 sender.sendEmailTo(["receiver@gmail.com"])
