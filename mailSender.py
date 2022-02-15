@@ -11,26 +11,28 @@ class mail:
 
 
 class mailSender:
-    def __init__(self, subject, body, senderMail, senderPassw) -> None:
+    def __init__(self, subject=None, body=None, senderMail=None, senderPassw=None) -> None:
         self.mail = mail(subject=subject, body=body)
         self.sender = senderMail
         self.password = senderPassw
-        self.message = EmailMessage()
+        self.message = ""
 ####
-    def setMessage(self, receiver):
+    def setMessage(self, receiver=None):
+        self.message = EmailMessage()
         self.message["From"] = self.sender
         self.message["To"] = receiver
         self.message["Subject"] = self.mail.subject
         self.message.set_content(self.mail.body)
 #####
-    def sendEmailTo(self, receiverMail):
-        self.setMessage(receiverMail)
+    def sendEmailTo(self, receiversMail=[]):
         context = ssl.create_default_context()
-        print("Sending email to", receiverMail)
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             server.login(self.sender, self.password)
-            server.sendmail(self.sender, receiverMail, self.message.as_string())
-        print("Email sent ... ")
+            for receiver in receiversMail:
+                print("Sending email to", receiver)
+                self.setMessage(receiver)
+                server.sendmail(self.sender, receiver, self.message.as_string())
+                print("Email sent ... ")
         
 
             
